@@ -42,11 +42,11 @@ internal fun LoadingRoute(
         // Create the LlmInference in a separate thread
         withContext(Dispatchers.IO) {
             try {
-                Log.d("CS330", "llm model loading...")
+                Log.d("CS330", "LLM model loading...")
                 InferenceModel.getInstance(context)
                 // Notify the UI that the model has finished loading
 
-                Log.d("CS330", "llm model loaded!")
+                Log.d("CS330", "LLM model loaded!")
                 withContext(Dispatchers.Main) {
                     onModelLoaded()
                 }

@@ -100,7 +100,7 @@ fun CameraScreen() {
             preview,
             imageAnalyzer
         )
-        Log.d("CS330", "camera bound")
+        Log.d("CS330", "Camera bound")
     }
 
     if (detectionResults.value != null) {
