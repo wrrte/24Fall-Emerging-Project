@@ -56,10 +56,10 @@ class PersonClassifier {
             .build())
 
         try {
-            Log.d("CS330", "object detection model loading... useGPU: ${useGPU}, thread number: ${threadNumber}")
+            Log.d("CS330", "Object detection model loading... useGPU: ${useGPU}, thread number: ${threadNumber}")
             objectDetector =
                 ObjectDetector.createFromFileAndOptions(context, MODEL_NAME, optionsBuilder.build())
-            Log.d("CS330", "object detection model loaded!!!!")
+            Log.d("CS330", "Object detection model loaded!!!!")
         } catch (e: IllegalStateException) {
             objectDetectorListener?.onObjectDetectionError(
                 "Object detector failed to initialize. See error logs for details"

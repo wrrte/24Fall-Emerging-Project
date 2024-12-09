@@ -49,7 +49,7 @@ class ChatViewModel(
                                 currentMessageId = null
                                 // Re-enable text input
                                 setInputEnabled(true)
-                                Log.d("#####", "prompt generation done")
+                                Log.d("CS330", "Response generation done")
                             }
                         }
                     }
