@@ -114,7 +114,7 @@ fun CameraScreen() {
             //  Create new classifier to be run on CPU with 2 threads
 
             // TODO:
-            //  Bind the new classifier to the camera
+            //  Set imageAnalyzer to use the new classifier
 
             Log.d("CS330", "GPU too slow, switching to CPU done")
         }
