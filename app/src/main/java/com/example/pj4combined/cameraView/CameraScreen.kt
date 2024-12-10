@@ -53,9 +53,6 @@ fun CameraScreen() {
     // Initialize our background executor
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
 
-    val mutableCameraProvider = remember { mutableStateOf<ProcessCameraProvider?>(null) }
-    val cameraSelector = remember { CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build() }
-
     val resolutionSelector =  ResolutionSelector.Builder().setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY).build()
     val preview = remember { Preview.Builder().setResolutionSelector(resolutionSelector).build() }
     val imageAnalyzer = remember {ImageAnalysis.Builder()
@@ -92,11 +89,11 @@ fun CameraScreen() {
 
         previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER)
 
-        val cameraProvider = context.getCameraProvider().also { mutableCameraProvider.value = it }
+        val cameraProvider = context.getCameraProvider()
         cameraProvider.unbindAll()
         cameraProvider.bindToLifecycle(
             lifecycleOwner,
-            cameraSelector,
+            CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build(),
             preview,
             imageAnalyzer
         )
