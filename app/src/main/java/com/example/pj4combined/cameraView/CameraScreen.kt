@@ -50,13 +50,6 @@ fun CameraScreen() {
     val detectionResults = remember { mutableStateOf<DetectionResult?>(null) }
     val errorMessage = remember { mutableStateOf<String?>(null) }
 
-    val listener = remember {
-        DetectorListener(
-            onDetectionResult = { results -> detectionResults.value = results },
-            onDetectionError = { error -> errorMessage.value = error }
-        )
-    }
-
     // Initialize our background executor
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
 
@@ -68,6 +61,12 @@ fun CameraScreen() {
             .setOutputImageFormat(OUTPUT_IMAGE_FORMAT_RGBA_8888)
             .build() }
 
+    val listener = remember {
+        DetectorListener(
+            onDetectionResult = { results -> detectionResults.value = results },
+            onDetectionError = { error -> errorMessage.value = error }
+        )
+    }
 
     val previewView = remember { PreviewView(context) }
 
@@ -110,9 +109,32 @@ fun CameraScreen() {
             Log.d("CS330", "GPU too slow, switching to CPU start")
             // TODO:
             //  Create new classifier to be run on CPU with 2 threads
+            /*
+            val personClassifierCPU = PersonClassifier()
+
+            Executors.newSingleThreadExecutor().execute {
+                personClassifierCPU.initialize(context, useGPU = false, threadNumber = 2)
+                Log.d("CS330", "CPU Classifier Initialized")
+
+                ContextCompat.getMainExecutor(context).execute {
+                    personClassifierCPU.setDetectorListener(listener)
+                    imageAnalyzer.setAnalyzer(cameraExecutor) { image ->
+                        detectObjects(image, personClassifierCPU)
+                        image.close()
+                    }
+                    Log.d("CS330", "CPU Classifier Set to Analyzer")
+                }
+            }
+            */
 
             // TODO:
             //  Set imageAnalyzer to use the new classifier
+            /*
+            imageAnalyzer.setAnalyzer(cameraExecutor) { image ->
+                detectObjects(image, personClassifierCPU)
+                image.close()
+            }
+            */
 
             Log.d("CS330", "GPU too slow, switching to CPU done")
         }
@@ -120,7 +142,8 @@ fun CameraScreen() {
 
     // Display the Camera Preview
     ShowCameraPreview( previewView )
-    Text(buildAnnotatedString {
+    Text(
+        buildAnnotatedString {
             if (detectionResults.value != null) {
                 val detectionResult = detectionResults.value!!
                 withStyle(style = SpanStyle(color = Color.Blue, fontSize = 20.sp)) {
@@ -132,7 +155,8 @@ fun CameraScreen() {
                     }
                 }
             }
-    })
+        }
+    )
 }
 
 @Composable
